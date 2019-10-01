@@ -2,6 +2,7 @@ package main
 
 import(
 	"github.com/rakshazi/applybyapi/api"
+	"github.com/rakshazi/applybyapi/tui"
 	"flag"
 	"log"
 )
@@ -17,9 +18,14 @@ func main() {
 	if(vacancyId == 0) {
 		log.Fatal("You must provide posting (vacancy) id, try to add -h flag to get more info")
 	}
+	tui.WelcomeMessage()
 	token, err := api.GetToken(vacancyId)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println("Token:", token)
+
+	tui.TokenNotification(token)
+	_ = tui.RunSurvey()
+
+	//api.Apply(token, data)
 }
