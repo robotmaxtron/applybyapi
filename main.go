@@ -9,19 +9,19 @@ import (
 	"github.com/rakshazi/applybyapi/tui"
 )
 
-var vacancyId int
+var vacancyID int
 
 func init() {
-	flag.IntVar(&vacancyId, "id", 0, "Posting (vacancy) ID")
+	flag.IntVar(&vacancyID, "id", 0, "Posting (vacancy) ID")
 }
 
 func main() {
 	flag.Parse()
-	if vacancyId == 0 {
+	if vacancyID == 0 {
 		log.Fatal("You must provide posting (vacancy) id, try to add -h flag to get more info")
 	}
 	tui.WelcomeMessage()
-	token, err := api.GetToken(vacancyId)
+	token, err := api.GetToken(vacancyID)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -29,7 +29,7 @@ func main() {
 	tui.TokenNotification(token)
 	data := tui.RunSurvey()
 	data.Token = token
-	data.Posting = strconv.Itoa(vacancyId)
+	data.Posting = strconv.Itoa(vacancyID)
 
 	id, err := api.Apply(data)
 	if err != nil {
