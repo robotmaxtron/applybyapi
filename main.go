@@ -1,10 +1,12 @@
 package main
 
-import(
-	"github.com/rakshazi/applybyapi/api"
-	"github.com/rakshazi/applybyapi/tui"
+import (
 	"flag"
 	"log"
+	"strconv"
+
+	"github.com/rakshazi/applybyapi/api"
+	"github.com/rakshazi/applybyapi/tui"
 )
 
 var vacancyId int
@@ -15,7 +17,7 @@ func init() {
 
 func main() {
 	flag.Parse()
-	if(vacancyId == 0) {
+	if vacancyId == 0 {
 		log.Fatal("You must provide posting (vacancy) id, try to add -h flag to get more info")
 	}
 	tui.WelcomeMessage()
@@ -25,7 +27,13 @@ func main() {
 	}
 
 	tui.TokenNotification(token)
-	_ = tui.RunSurvey()
+	data := tui.RunSurvey()
+	data.Token = token
+	data.Posting = strconv.Itoa(vacancyId)
 
-	//api.Apply(token, data)
+	id, err := api.Apply(data)
+	if err != nil {
+		log.Fatal(err)
+	}
+	tui.Done(id)
 }
