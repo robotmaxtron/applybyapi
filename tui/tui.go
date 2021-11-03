@@ -23,7 +23,7 @@ type Data struct {
 
 // Print welcome message
 func WelcomeMessage() {
-	fmt.Println("Welcome to ApplyByAPI client (built on ApplyByAPI's API xD)")
+	fmt.Println("Welcome to ApplyByAPI client (built on ApplyByAPI's API)")
 }
 
 // Print notification about new token
